@@ -29,9 +29,11 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "Users",
     "Reports",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -40,6 +42,27 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Allow frontend in development
+]
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+]
+
+
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+    "Access-Control-Allow-Origin",
+]
+
 
 ROOT_URLCONF = "WeCare.urls"
 
@@ -104,8 +127,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # JWT Authentication settings
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",  # ✅ Enable JWT authentication
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
     ),
 }
 
